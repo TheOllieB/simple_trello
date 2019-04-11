@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Trello</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"/>
+  <link rel="stylesheet" href="main.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+    $( function() {
+        $( "#tasks" ).sortable({
+            connectWith: "#doing",
+            dropOnEmpty: true
+        });
+        $( "#doing" ).sortable({
+            connectWith: "#tasks",
+            dropOnEmpty: true
+        });
+        $( "#done" ).sortable({
+            connectWith: "#doing",
+            dropOnEmpty: true
+        });
+        $( "#doing" ).sortable({
+            connectWith: "#done",
+            dropOnEmpty: true
+        });
+    } );
+</script>
+</head>
+<body>
+    <div class="ui container stackable grid">
+        <div class="four wide column">
+            <form  id="messageForm" class="ui form">
+                <div class="field">
+                    <label>Create Task</label>
+                    <textarea type="textarea" id="message" rows="2"></textarea>
+                </div>
+                <button class="ui primary button">Submit</button>
+            </form>
+        </div>
+        <div class="four wide column wide">
+            <h5>Tasks:</h5>
+            <div id="tasks" class="dropTrue ui-sortable board">
+            </div>
+        </div>
+        <div class="four wide column">
+            <h5>Current:</h5>
+            <div id="doing" class="board dropTrue ui-sortable">
+                <div class="ui card ui-sortable-handle">
+                    <div class="content">
+                        <div class="description">
+                            <p>Walk the dogs</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="four wide column ">
+            <h5>Completed:</h5>
+            <div class="dropTrue ui-sortable board" id="done">  
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function(){
+            console.log($.ui);
+            var $messageForm = $('#messageForm');
+            var $message = $('#message');
+            var $tasks = $('#tasks');
+            var $createdBy = $('#createdBy');
+            var $tasks = $('#tasks');
+
+            $( "#tasks" ).sortable({
+                connectWith: "#doing",
+                dropOnEmpty: true
+            });
+            $( "#doing" ).sortable({
+                connectWith: "#tasks",
+                dropOnEmpty: true
+            });
+            $( "#done" ).sortable({
+                connectWith: "#doing",
+                dropOnEmpty: true
+            });
+            $( "#doing" ).sortable({
+                connectWith: "#done",
+                dropOnEmpty: true
+            });
+
+            function Generator() {};
+            
+            Generator.prototype.rand =  Math.floor(Math.random() * 26) + Date.now();
+            
+            Generator.prototype.getId = function() {
+            return this.rand++;
+            };
+            var idGen = new Generator();
+    
+            $messageForm.submit(function(e){
+                console.log("task created");
+                var $id = idGen.getId();
+                e.preventDefault();
+                $tasks.append('<div id= '+ $id + ' class="ui card ui-sortable-handle"><div class="content"><div class="description"><p>'+ $message.val() + '</p></div></div></div>');
+                $message.val('');
+            });
+        });
+    </script>
+</body>
+</html>
